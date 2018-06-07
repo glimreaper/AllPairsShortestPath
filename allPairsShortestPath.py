@@ -21,19 +21,33 @@ edges=[]
 def BellmanFord(G):
     pathPairs=[]
     d = G[1]
+    
     for i in range(len(G[0])):
         d[i][i] = 0
-    for i in range(len(G[0])):
-        print(d[i])
 
 
-    # TODO: Fill in your Bellman-Ford algorithm here
-    print('BellmanFord algorithm is incomplete')
+    for x in range(len(G[0])-1):
+        for i in range(len(G[0])-1):
+            for v in G[0]:
+                for u in G[0]:
+                    if float(d[i][v]) > float(d[i][u]) + float(d[u][v]):
+                        d[i][v] = int(d[i][u]) + int(d[u][v])
+                        d[i][v] = str(d[i][v])   
+
+        for v in G[0]:
+            for u in G[0]:
+                if float(d[i][v]) > float(d[i][u]) + float(d[u][v]):
+                    print("hi")
+
+        
     # The pathPairs list will contain the 2D array of shortest paths between all pairs of vertices 
     # [[w(1,1),w(1,2),...]
     #  [w(2,1),w(2,2),...]
     #  [w(3,1),w(3,2),...]
     #   ...]
+    pathPairs = d    # TODO: Fill in your Bellman-Ford algorithm here
+    for i in pathPairs:
+        print(i)
     return pathPairs
 
 def FloydWarshall(G):
