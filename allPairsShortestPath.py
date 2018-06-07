@@ -26,26 +26,29 @@ def BellmanFord(G):
         d[i][i] = 0
 
 
-    for x in range(len(G[0])-1):
+    for x in range(len(G[0])):
+        dist = []
+        for i in range(len(G[0])):
+            dist.append(float("inf"))
+        dist[x] = 0
         for i in range(len(G[0])-1):
-            for v in G[0]:
-                for u in G[0]:
-                    if float(d[i][v]) > float(d[i][u]) + float(d[u][v]):
-                        d[i][v] = int(d[i][u]) + int(d[u][v])
-                        d[i][v] = str(d[i][v])   
+            for u in range(len(d)):
+                for v in range(len(d)):
+                    if dist[u] != float("inf") and float(dist[v]) > float(dist[u]) + float(d[u][v]):
+                        dist[v] = int(dist[u]) + int(d[u][v])
+                        dist[v] = str(dist[v])   
 
-        for v in G[0]:
-            for u in G[0]:
-                if float(d[i][v]) > float(d[i][u]) + float(d[u][v]):
-                    print("hi")
-
-        
+        for u in range(len(d)):
+            for v in range(len(d)):
+                if float(dist[v]) > float(dist[u]) + float(d[u][v]):
+                    print("neg weight")
+        pathPairs.append(dist)          
     # The pathPairs list will contain the 2D array of shortest paths between all pairs of vertices 
     # [[w(1,1),w(1,2),...]
     #  [w(2,1),w(2,2),...]
     #  [w(3,1),w(3,2),...]
     #   ...]
-    pathPairs = d    # TODO: Fill in your Bellman-Ford algorithm here
+        # TODO: Fill in your Bellman-Ford algorithm here
     for i in pathPairs:
         print(i)
     return pathPairs
