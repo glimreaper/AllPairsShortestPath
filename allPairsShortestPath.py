@@ -3,6 +3,8 @@ import os
 import re
 import sys
 import time
+import profile
+import cProfile
 
 # Command line arguments
 parser=argparse.ArgumentParser(description='Calculate the shortest path between all pairs of vertices in a graph')
@@ -24,8 +26,7 @@ def BellmanFord(G):
     
     for i in range(len(G[0])):
         d[i][i] = 0
-
-
+            
     for x in range(len(G[0])):
         dist = []
         for i in range(len(G[0])):
@@ -35,8 +36,9 @@ def BellmanFord(G):
             for u in range(len(d)):
                 for v in range(len(d)):
                     if dist[u] != float("inf") and float(dist[v]) > float(dist[u]) + float(d[u][v]):
+                        print(float(dist[v]))
                         dist[v] = int(dist[u]) + int(d[u][v])
-                        dist[v] = str(dist[v])   
+                        #dist[v] = str(dist[v])   
 
         for u in range(len(d)):
             for v in range(len(d)):
@@ -51,12 +53,28 @@ def BellmanFord(G):
         # TODO: Fill in your Bellman-Ford algorithm here
     for i in pathPairs:
         print(i)
+
+    print('BellmanFord algorithm is complete')
     return pathPairs
 
 def FloydWarshall(G):
     pathPairs=[]
+    d = G[1]
+    for i in range(len(d)):
+        d[i][i] = 0
+        pathPairs.append(d[i])
+    
+    for i in range(len(G[0])):
+        for k in range(len(G[0])):
+            for j in range(len(G[0])):
+                if float(pathPairs[k][j]) > float(pathPairs[k][i]) + float(pathPairs[i][j]):
+                    print(float(pathPairs[k][j]))
+                    #print(float(pathPairs[k][i]) + float(pathPairs[i][j]))
+                    pathPairs[k][j] = int(pathPairs[k][i]) + int(pathPairs[i][j])
+                    #pathPairs[k][j] = str(pathPairs[k][j])
+
     # TODO: Fill in your Floyd-Warshall algorithm here
-    print('FloydWarshall algorithm is incomplete')
+    print('FloydWarshall algorithm is complete')
     # The pathPairs list will contain the 2D array of shortest paths between all pairs of vertices 
     # [[w(1,1),w(1,2),...]
     #  [w(2,1),w(2,2),...]
@@ -115,9 +133,11 @@ def main(filename,algorithm):
     # in the format ((source,sink),weight)
     if algorithm == 'b' or algorithm == 'B':
         # TODO: Insert timing code here
+        cProfile.runctx('BellmanFord(G)', globals=globals(), locals=locals())
         pathPairs = BellmanFord(G)
     if algorithm == 'f' or algorithm == 'F':
         # TODO: Insert timing code here
+        cProfile.runctx('FloydWarshall(G)', globals=globals(), locals=locals())
         pathPairs = FloydWarshall(G)
     if algorithm == 'a':
         print('running both') 
