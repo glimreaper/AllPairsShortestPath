@@ -5,6 +5,7 @@ import sys
 import time
 import profile
 import cProfile
+from decimal import *
 
 # Command line arguments
 parser=argparse.ArgumentParser(description='Calculate the shortest path between all pairs of vertices in a graph')
@@ -35,8 +36,7 @@ def BellmanFord(G):
         for i in range(len(G[0])-1):
             for u in range(len(d)):
                 for v in range(len(d)):
-                    if dist[u] != float("inf") and float(dist[v]) > float(dist[u]) + float(d[u][v]):
-                        print(float(dist[v]))
+                    if dist[u] != float("inf") and Decimal(dist[v]) > Decimal(dist[u]) + Decimal(d[u][v]):
                         dist[v] = int(dist[u]) + int(d[u][v])
                         #dist[v] = str(dist[v])   
 
@@ -67,8 +67,7 @@ def FloydWarshall(G):
     for i in range(len(G[0])):
         for k in range(len(G[0])):
             for j in range(len(G[0])):
-                if float(pathPairs[k][j]) > float(pathPairs[k][i]) + float(pathPairs[i][j]):
-                    print(float(pathPairs[k][j]))
+                if Decimal(pathPairs[k][j]) > Decimal(pathPairs[k][i]) + Decimal(pathPairs[i][j]):
                     #print(float(pathPairs[k][i]) + float(pathPairs[i][j]))
                     pathPairs[k][j] = int(pathPairs[k][i]) + int(pathPairs[i][j])
                     #pathPairs[k][j] = str(pathPairs[k][j])
